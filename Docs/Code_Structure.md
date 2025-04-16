@@ -48,7 +48,7 @@ Broadly, when initalized, [`RobotContainer.java`](https://github.com/Aragon-Robo
 
 ---
 
-## Miscallaneous
+## Miscellaneous
 
 Some other things about code structure (that weren't mentioned previously):      
 - A Subsystem should really be thought of as an independent robot mechanism. As an example, consider our robot in 2025 that had an end effector (basically outtake rollers) attached to an arm mechanism. Given that we wanted these two components to be independent (e.g. able to intake/outtake without using up the Arm, able to move the arm without being able to restrict the end effector rollers), it made sense to have two subsystems (`Arm.java` and `EndEffector.java`) instead of one as that allowed our robot to be able to move the arm while our end effector was doing something completely different (and vice-versa).    
