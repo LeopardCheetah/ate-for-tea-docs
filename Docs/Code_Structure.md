@@ -42,9 +42,49 @@ We start in the top left with the box with an "M" that represents `Main.java`. L
 `Robot.java` is not as boring but also doesn't give much insight. Primarily, `Robot.java` is used as a way for our code to communicate with the NI Driver Station Application -- for example, the `Autonomous Periodic` method is what's called when we are enabled and in the Autonomous Mode/Tab in our Driver Station.     
 Taking a look at the code in [`Robot.java`](https://github.com/Aragon-Robotics-Team/frc-2025/blob/main/src/main/java/frc/robot/Robot.java), it's not too interesting -- there's some logging initialization and some basic scheduling. Moreover, `Robot.java` initalizes a `RobotContainer` object and basically runs the code in `RobotContainer.java` (the "RC" box in the top right in the picture above).
 
-`RobotContainer.java`, like mentioned above, is then sorta the assembly of our code -- where all our code comes together.    
+`RobotContainer.java`, like mentioned above, can then be thought of as the assembly of our code -- where all our code comes together.    
 Broadly, when initalized, [`RobotContainer.java`](https://github.com/Aragon-Robotics-Team/frc-2025/blob/main/src/main/java/frc/robot/RobotContainer.java) first initializes all the subsystems, then initalizes all the commands[^4], and finally binds commands to joystick triggers/buttons/axes. Note that each commands needs a subsystem as an argument in its constructor which is why there are arrows from each Subsystem (S1, S2, S3) to the appropriate command (C11, C12, ...).
 
+
+---
+
+## Miscallaneous
+
+Some other things about code structure (that weren't mentioned previously):      
+- A Subsystem should really be thought of as an independent robot mechanism. As an example, consider our robot in 2025 that had an end effector (basically outtake rollers) attached to an arm mechanism. Given that we wanted these two components to be independent (e.g. able to intake/outtake without using up the Arm, able to move the arm without being able to restrict the end effector rollers), it made sense to have two subsystems (`Arm.java` and `EndEffector.java`) instead of one as that allowed our robot to be able to move the arm while our end effector was doing something completely different (and vice-versa).    
+- Sometimes, if an error gets really bad, you're going to need to fix some error in the `build.gradle` file and usually, changing the version is the way to go (e.g. switch `202x.2.1` to `202x.3.1`).    
+- The way commands are created, instead of making a new subsystem for each command (see code snippet 1), we pass in a subsystem (through the constructor) for the command to use and interact with (see code snippet 2). The main advantages of using the same subsystem for each command is that command scheduling is done almost automatically for us, and data is consistent between subsystems (e.g. calling `getEncoderTicks()` will read the same).
+Don't do this:
+```java
+// this is in SomeArmCommand.java
+
+// ...
+public class SomeArmCommand extends Command {
+    private Arm m_arm;
+    // ...
+    public ArcadeArm() {
+        m_arm = new Arm();
+        // ...
+    }
+    // ...
+}
+```
+
+Do this instead:
+```java
+// this is in SomeArmCommand.java
+
+// ...
+public class SomeArmCommand extends Command {
+    private Arm m_arm;
+    // ...
+    public ArcadeArm(Arm arm) {
+        m_arm = arm;
+        // ...
+    }
+    // ...
+}
+```
 
 
 ---
