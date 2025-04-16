@@ -9,4 +9,4 @@ Thanks to [Highlander Robotics](https://github.com/HighlanderRobotics/Highlander
 
 ---
 
-The [todo list](Docs/General/Java.md) is stuff that I want written that maybe will be written later.
+The [todo list](todo.md) is stuff that I want written that maybe will be written later.
