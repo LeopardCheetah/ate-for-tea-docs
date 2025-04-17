@@ -3,7 +3,7 @@
 
 In one picture, this is how our code structure looks:
 
-<img alt="Example WPILib Code Structure (MS Paint)" src="../Assets/Example_Code_Structure.png" width="780" height="400">
+<img alt="Example WPILib Code Structure" src="../Assets/Example_Code_Structure.png" width="780" height="400">
 
 In multiple words, our code structure uses commands and subsystems to try and mimic the real world robot. 
 
@@ -35,7 +35,7 @@ It is worth noting that each Subsystem can only run one command at a time -- for
 
 Hijacking the opening picture, our code generally runs like this:
 
-<img alt="Example WPILib Code Structure (MS Paint)" src="../Assets/Example_Code_Structure.png" width="780" height="400">
+<img alt="Example WPILib Code Structure (same picture as above)" src="../Assets/Example_Code_Structure.png" width="780" height="400">
 
 We start in the top left with the box with an "M" that represents `Main.java`. Like most java programs, this is the first and only java file that is called to run, and this happens when the robot first connects to the RIO[^3]. If we take a look inside [`Main.java`](https://github.com/Aragon-Robotics-Team/frc-2025/blob/main/src/main/java/frc/robot/Main.java) however, nothing interesting happens -- `Main.java` makes a robot base and essentially runs whatever's in `Robot.java` (thus the arrow from M to R in the picture). 
 
