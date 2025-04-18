@@ -18,6 +18,14 @@ Here, note that the stuff before the at (@) sign is the name of the user on the 
 
 ## Basic Usage
 
+#### Terminal Commands
+- `cd`: stands for "change directory," and use `cd` to move around your file structure by typing `cd [folder name]`. For example, to move the terminal (think of it like a pointer) state from being in `C:\lorem\ipsum\delta` to `C:\lorem\ipsum\delta\eta`, use `cd eta`. Also, to go back to a parent folder (e.g. from `C:\Alice\Bob\Charlie` to `C:\Alice\Bob`), use `cd ..`.      
+- `dir`/`ls`: lists all folders/files in the current directory. For example, from the [840 2025 codebase](https://github.com/Aragon-Robotics-Team/frc-2025):
+
+<img alt="Git Bash Terminal (ls/dir command)" src="../Assets/Git_Bash_Terminal_DIR-LS.png" width="396" height="200">
+
+Note that `ls` provides color highlighting based on file type.     
+- `clear`: clears the terminal screen by pushing all output upwards. Use this if the screen gets too cluttered.
 ---
 
 ## Other Notes
