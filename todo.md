@@ -5,6 +5,9 @@ Basic:
 > - Brief intro to git branches and that stuff     
 ~~- Code Structure (how does the code actually work and run? organization?)~~    
 
+- how to write a file (e.g. `elevator.java`)     
+- maybe creating a new example project
+
 
 Not basic:
 - Trapezoidal Documentation     
