@@ -23,4 +23,4 @@ For this example `Arm`, I'll assume there's some sort of `Encoder` tracking wher
 Take a look at a Subsystem and more specifically, its code structure.
 
 
-<img alt="Example Indexer Code Structure" src="../Assets/Example_Subsystem_Code.png" width="1232" height="878">
+<img alt="Example Indexer Code Structure" src="../Assets/Example_Subsystem_Code.png" width="842" height="600">
