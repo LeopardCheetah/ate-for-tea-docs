@@ -9,4 +9,5 @@ Thanks to [Highlander Robotics](https://github.com/HighlanderRobotics/Highlander
 
 ---
 
-The [todo list](todo.md) is stuff that I want written that maybe will be written later.
+The [todo list](todo.md) is stuff that I want written that maybe will be written later.    
+Feel free to open an issue or PR for some feature as long as this project is maintained (last commit <= 3 months unless we're in build season).
