@@ -8,11 +8,9 @@ See (fix link) Code_Architecture.md for the overall scope but to elaborate on co
 
 ## Architectural Principles
 
-### Command Architecture
+### Command Architecture + Encapsulation
 
-See [Basic Code Flow](Basic_Code_Flow.md) for a brief refresher (todo: update this with right section header) on subsystems and commands.
-
-#### Encapsulation
+(See [Basic Code Flow](Basic_Code_Flow.md) for a brief refresher on subsystems and commands.)
 
 Taking a look at the code structure image from [Basic Code Flow](Basic_Code_Flow.md),
 
@@ -22,7 +20,61 @@ note the arrows between Commands (`C11`) and Subsystems (`S1`).
 
 The real implication/connection that is trying to be made with this arrow is that in WPILib commands, generally, commands don't have *inherent* functionality -- ex. instead of calling `motor.set()` themselves, they call a method in the parent Subsystem that does `motor.set()` for the command. This is what's known as encapsulation!
 
-So don't do this:
+**Encapsulation** is basically a coding paradigm in which instead of accessing things directly, we instead go through methods to do things (this should've covered by Codecademy). The benefits of encapsulation is that with encapsulation, it's super hard to change variables *accidently*. Also, limiting scope can potentially prevent some exploits that reuse variables and stuff (but we don't worry about this part in FRC). 
+
+Encapsulation looks something like this:
+Instead of this
+```java
+public class NumberMaker{
+    public int x = 3;
+
+    public NumberMaker(){}
+}
+```
+
+where `x` can be accessed like in the following way,
+```java
+public class NumberTester{
+    NumberMaker n = new NumberMaker();
+
+    System.out.println(n.x); // 3
+    n.x = 5; // change x to 5 (i'm also not sure if this will work so this is kinda psuedocode)
+    System.out.println(n.x); // 5
+}
+```
+
+encaspulation instead recommends us to wrap methods around everything like so:
+
+```java
+public class NumberMaker{
+    private int x = 3; // note the private keyword
+
+    public NumberMaker(){}
+    public int getX(){
+        return x;
+    }
+
+    public void changeX(int newx){
+        x = newx;
+    }
+}
+```
+
+...and all functionality is still kept
+```java
+public class NumberTester{
+    NumberMaker n = new NumberMaker();
+
+    System.out.println(n.getX()); // 3
+    n.changeX(5); // change x to 5 
+    System.out.println(n.getX()); // 5
+}
+```
+
+Back to WPILib and FRC coding, we do something super similar in between subsystems and commands. We have some sort of `Motor` or `Actuator` object in some Subsystem, and instead of letting our command access that object directly (and do things with it), we instead encapsulate that object behind some methods and have our Commands call the Subsystem's methods instead of the Subsystem's object directly.
+
+
+To sum up, instead of doing this,
 ```java
 public class SomeCommand extends Command{
 	private SomeSubsystem m_subsystem;
@@ -35,7 +87,7 @@ public class SomeCommand extends Command{
 }
 ```
 
-And do this instead:
+Do this instead:
 ```java
 public class SomeCommand extends Command{
 	private SomeSubsystem m_subsystem;
@@ -47,6 +99,7 @@ public class SomeCommand extends Command{
 	}
 }
 ```
+
 and implement `setSpeed` in `SomeSubsystem.java` like so:
 
 ```java
@@ -62,9 +115,8 @@ public class SomeSubsystem extends SubsystemBase{
 ```
 
 --- 
-<note that commands can "take up" multiple subsystems at a time.>
 
-Generally, no objects are made in each command in WPILib. What this means for example is that (like mentioned in Code_Architecture.md), instead of initializing a subsystem, we merely declare it in our code and pass in one through the constructor. 
+Generally also, no objects are made in a Command. Instead, if we need some object (e.g. an `Arm` subsystem), we pass to our Command via the constructor. The main reason of doing this is that we use the same subsystem for each command, which allows for easy command scheduling and also consistent data between subsystems (e.g. calling `getEncoderTicks()` will read the same across different commands).
 
 Essentially, instead of this:
 ```java
@@ -89,14 +141,7 @@ public class GenericCommand extends Command{
 }
 ```
 
----
-
-
-
-
-
-- The way commands are created, instead of making a new subsystem for each command (see code snippet 1), we pass in a subsystem (through the constructor) for the command to use and interact with (see code snippet 2). The main advantages of using the same subsystem for each command is that command scheduling is done almost automatically for us, and data is consistent between subsystems (e.g. calling `getEncoderTicks()` will read the same).
-Don't do this:
+As another example, don't do this:
 ```java
 // this is in SomeArmCommand.java
 
@@ -128,6 +173,13 @@ public class SomeArmCommand extends Command {
 }
 ```
 
-Note that at a deeper level, Subsystems should be thought as independent mechanisms of the robot. For example, in 2025, our robot had an intake-like system on top of our arm mechanism. Since these two components needed to be independent (e.g. intake should be able to intake/outtake regardless of arm movement and vice versa), we had two different subsystems for those two mechanisms: `Arm.java` and `EndEffector.java`. 
+---
 
+### Subsystem Scope
+
+<note that commands can "take up" multiple subsystems at a time.>
+
+Commands are needy. They need all the subsystems they interact with. As a byproduct, since each subsystem can only do one thing at a time (e.g. your elevator can't move up **and** stay still), only one command can be running on a subsystem at a single moment. As such, if for example `MoveArm` is running on the `Arm` Subsystem but you also want to run the `IntakeArm` command at the same time, your code can either decide to stick with your `MoveArm` command until it's finished (or overridden) or cancel your `MoveArm` command in favor of your `IntakeArm` command. It's pretty annoying if you want to start intaking and move you arm at the same time.
+
+There are (afaik) two ways to solve the issue. The first is to pass a "state" between commands -- for example, if your code is running the `MoveArm` command and `IntakeArm` is scheduled to run, in this state paradigm thing, `IntakeArm` would override `MoveArm` and the arm state (e.g. ticks, angular speed, motor RPM) would translate to over to `IntakeArm` which then could both continue `MoveArm` and intake at the same time. The second (and simpler) method that our team uses to solve this issue is to simply making anything independent a Subsystem. For example, if we want the intake on the arm to be able to intake/outtake regardless of arm movement and vice versa, instead of making one subsystem (`ArmIntake.java`), we would make two (`Arm.java` + `Intake.java`) which would then allow us to run different commands on the subsystems at the same time.
 
