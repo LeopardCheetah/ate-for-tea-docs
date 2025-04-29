@@ -54,7 +54,7 @@ Some other things about code structure (that weren't mentioned previously):
 
 - Sometimes, if an error gets really bad, you're going to need to fix some error in the `build.gradle` file and usually, changing the version is the way to go (e.g. switch `202x.2.1` to `202x.3.1`).    
 - The constants folder just has files with constants in it (e.g. `DriveConstants.java`, `ArmConstants.java`). That's just to make things neater so not all the constants are in a massive `Constants.java` file.
-- See (todo: fix link) [Code Architecture](Code_Architecture.md) for some more info on how exactly code is structured.
+- See [Code Architecture](Code_Architecture.md) for some more info on how exactly code is structured.
 
 
 
