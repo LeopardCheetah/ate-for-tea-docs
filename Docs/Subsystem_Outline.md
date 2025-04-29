@@ -49,7 +49,7 @@ Usually nothing happens in the constructor. Note that the constructor is also us
 
 ### Methods
 
-This is the other juicy part of the subsystem. See [Code Structure](Code_Structure.md)[^3] for a detailed overview of how subsystems and commands interact but the tl;dr is that subsystems should not have any inherent functionality and should instead provide ways to function (methods) that commands then use to do tihngs.     
+This is the other juicy part of the subsystem. See [Code Architecture](Code_Architecture.md) for a detailed overview of how subsystems and commands interact but the tl;dr is that subsystems should not have any inherent functionality and should instead provide ways to function (methods) that commands then use to do tihngs.     
 For example, returning to our arm subsystem, let's say we want our arm to move. Since the command is the thing that actually dictates how fast our arm should move and maybe where it should go to, we have to write a generic function that can make the arm move at any speed, so we'll make a `setSpeed` method defined as follows:
 ```java
 public setSpeed(double speed){
@@ -69,9 +69,7 @@ Eh. See Footnote 1[^1] if you want some information.
 
 ---
 
-## Miscellaneous
-
-See [Code Structure](Code_Structure.md) and Footnote 4[^4] on some more information about why exactly things are the way they are in Subsystems. Also, since only one command can run on one subsystem at one time, if you want things to move independently (e.g. you have a 2 dof elevator or something), it's best to make a separate subsystem for each independent physical mechanism.
+See [Code Architecture](Code_Architecture.md) and Footnote 3[^3] on some more information about why exactly things are the way they are in Subsystems. Also, since only one command can run on one subsystem at one time, if you want things to move independently (e.g. you have a 2 dof elevator or something), it's best to make a separate subsystem for each independent physical mechanism.
 
 
 
@@ -81,5 +79,4 @@ footnotes/todos:
 
 [^1]: The periodic function is set to run every 20ms, so any real function check or whatever put there for any subsystem is likely going to continue indefinitely once the subsystem is made. Usually, the motors/whatevers in subsystems are controlled by Commands (e.g. `SpinOuttake.java`) so generally no real actionable code is written in periodic. 
 [^2]: This code isn't validated. Might be incorrect syntactically but it gets the idea across.
-[^3]: File does not currently exist but will be made to explain how this encapsulation idea works and how subsystems/commands are supposed to interact.
-[^4]: Of course, we could always make all the methods do the heavy lifting; for example, what if we made a command called `MoveToPosition` that did a PID loop on our arm angle and motor speed until it reached the desired angle? While in theory this would work and be efficient, in practice, we relegate that task to a command and subsystems should instead have minimal interfacing and functionality. See [Code Structure](Code_Structure.md) for more details (if I remember to write this doc).
+[^3]: Of course, we could always make all the methods do the heavy lifting; for example, what if we made a command called `MoveToPosition` that did a PID loop on our arm angle and motor speed until it reached the desired angle? While in theory this would work and be efficient, in practice, we relegate that task to a command and subsystems should instead have minimal interfacing and functionality. See [Code Architecture](Code_Architecture.md) for more details.
