@@ -37,7 +37,7 @@ Imports are usually auto-generated when you press `Tab` and autocomplete a line 
 
 This is one of the juicy parts of the Subsystem. The components section (right below the class definition and above the constructor) is where all the motor/sensor/config variables that the subsystem uses are initialized and assigned values. For example, if you have some sort of encoder attached to your subsystem, you'd add some code here to make an encoder.
 
-As an example, for our sample arm code, the instance variables in the 'component section' could look something like this[^2]:
+As an example, for our sample arm code, the instance variables in the 'component section' would look something like this:
 ```java
 private SparkMax m_someMotor = new SparkMax(0, MotorType.kBrushless);
 private Encoder encoder = new Encoder(0);
@@ -64,19 +64,7 @@ Note also that how many and what methods you make will be dicated by how many co
 
 ### periodic()
 
-Eh. See Footnote 1[^1] if you want some information.
-
-
----
-
-See [Code Architecture](Code_Architecture.md) and Footnote 3[^3] on some more information about why exactly things are the way they are in Subsystems. Also, since only one command can run on one subsystem at one time, if you want things to move independently (e.g. you have a 2 dof elevator or something), it's best to make a separate subsystem for each independent physical mechanism.
+The periodic function is set to run every 20ms, so any real function check or whatever put there for any subsystem is likely going to continue indefinitely once the subsystem is made. Usually, the motors/whatevers in subsystems are controlled by Commands (e.g. `SpinOuttake.java`) so generally no real actionable code is written in periodic. 
 
 
 
-
-----
-footnotes/todos:
-
-[^1]: The periodic function is set to run every 20ms, so any real function check or whatever put there for any subsystem is likely going to continue indefinitely once the subsystem is made. Usually, the motors/whatevers in subsystems are controlled by Commands (e.g. `SpinOuttake.java`) so generally no real actionable code is written in periodic. 
-[^2]: This code isn't validated. Might be incorrect syntactically but it gets the idea across.
-[^3]: Of course, we could always make all the methods do the heavy lifting; for example, what if we made a command called `MoveToPosition` that did a PID loop on our arm angle and motor speed until it reached the desired angle? While in theory this would work and be efficient, in practice, we relegate that task to a command and subsystems should instead have minimal interfacing and functionality. See [Code Architecture](Code_Architecture.md) for more details.
