@@ -15,5 +15,6 @@ The [todo list](todo.md) is stuff that I want written that maybe will be written
 
 Other places with great documentation:     
 - [Deep Blue Robotics - FRC 199](https://deep-blue-training.readthedocs.io/en/latest/) -- recommended by asa!    
-- [Highlander Robotics](https://github.com/HighlanderRobotics/Highlanders-Training) -- this is also the above link      
-- frcprogramming.com (incoming?)
+- [Highlander Robotics - FRC 8033](https://github.com/HighlanderRobotics/Highlanders-Training) -- this is also the above link      
+- [Sciborgs - FRC 1155](https://github.com/SciBorgs/SciGuides/blob/main/projects/intro-to-programming/Programming101.md)      
+- frcprogramming.com (incoming?) 
