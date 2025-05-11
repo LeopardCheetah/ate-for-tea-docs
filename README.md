@@ -10,3 +10,10 @@ Thanks to [Highlander Robotics](https://github.com/HighlanderRobotics/Highlander
 ---
 
 The [todo list](todo.md) is stuff that I want written that maybe will be written later.    
+
+---
+
+Other places with great documentation:     
+- [Deep Blue Robotics - FRC 199](https://deep-blue-training.readthedocs.io/en/latest/) -- recommended by asa!    
+- [Highlander Robotics](https://github.com/HighlanderRobotics/Highlanders-Training) -- this is also the above link      
+- frcprogramming.com (incoming?)
